@@ -1,19 +1,12 @@
 package es.uji.jvilar.gradebook
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import es.uji.jvilar.gradebook.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), GradeView {
 
@@ -32,7 +25,7 @@ class MainActivity : AppCompatActivity(), GradeView {
         }
 
         subjectView = findViewById(R.id.subjectView)
-        presenter = Presenter(Model(), this)
+        presenter = Presenter(Model(applicationContext), this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -3,6 +3,7 @@ package es.uji.jvilar.gradebook.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface GradeDao {
@@ -11,4 +12,7 @@ interface GradeDao {
 
     @Insert
     fun insertGrade(grade: Grade)
+
+    @Query("SELECT * FROM subject")
+    fun getSubjects(): List<Subject>
 }

@@ -1,5 +1,8 @@
 package es.uji.jvilar.gradebook
 
-interface GradeView {
+import es.uji.jvilar.gradebook.database.Subject
 
+interface GradeView {
+    fun askForSubject()
+    fun showSubjects(subjects: List<Subject>)
 }

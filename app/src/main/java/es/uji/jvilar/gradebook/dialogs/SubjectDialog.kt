@@ -22,14 +22,17 @@ class SubjectDialog: DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val activity: Activity = activity ?: throw IllegalStateException("Activity cannot be null")
-        val builder = AlertDialog.Builder(activity)
         val view: View = activity.layoutInflater.inflate(R.layout.dialog_subject, null)
-        nameEditText = view.findViewById(R.id.subjectName)
-        codeEditText = view.findViewById(R.id.subjectCode)
-        builder.setView(view)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(android.R.string.ok) { _, _ -> onSubjectReady() }
-        return builder.create()
+        with (view) {
+            nameEditText = findViewById(R.id.subjectName)
+            codeEditText = findViewById(R.id.subjectCode)
+        }
+        return AlertDialog.Builder(activity).run {
+            setView(view)
+            setNegativeButton(android.R.string.cancel, null)
+            setPositiveButton(android.R.string.ok) { _, _ -> onSubjectReady() }
+            create()
+        }
     }
 
     private fun onSubjectReady() {

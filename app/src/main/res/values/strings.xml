@@ -13,4 +13,7 @@
     <string name="code">Code:</string>
     <string name="name">Name</string>
     <string name="no_subjects_yet">No subjects yet</string>
+    <string name="subject">Subject:</string>
+    <string name="grade">Grade:</string>
+    <string name="weight">Weight:</string>
 </resources>

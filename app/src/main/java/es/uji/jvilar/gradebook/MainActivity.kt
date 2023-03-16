@@ -3,18 +3,21 @@ package es.uji.jvilar.gradebook
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import es.uji.jvilar.gradebook.database.Grade
 import es.uji.jvilar.gradebook.database.Subject
+import es.uji.jvilar.gradebook.database.SubjectGrade
+import es.uji.jvilar.gradebook.dialogs.GradeDialog
+import es.uji.jvilar.gradebook.dialogs.GradeDialog.GradeListener
 import es.uji.jvilar.gradebook.dialogs.SubjectDialog
 import es.uji.jvilar.gradebook.dialogs.SubjectDialog.SubjectListener
 
-class MainActivity : AppCompatActivity(), GradeView, SubjectListener {
+class MainActivity : AppCompatActivity(), GradeView, SubjectListener, GradeListener {
 
     private lateinit var subjectView: RecyclerView
     private lateinit var noSubjectText: TextView
@@ -28,7 +31,7 @@ class MainActivity : AppCompatActivity(), GradeView, SubjectListener {
 
         fab = findViewById(R.id.fab)
         fab.setOnClickListener {
-            Toast.makeText(this, "Add new grade", Toast.LENGTH_LONG).show()
+            presenter.onNewGradeRequested()
         }
 
         subjectView = findViewById(R.id.subjectView)
@@ -54,17 +57,26 @@ class MainActivity : AppCompatActivity(), GradeView, SubjectListener {
 
     override fun askForSubject() = SubjectDialog().show(supportFragmentManager, "Subject")
 
-    override fun showSubjects(subjects: List<Subject>) {
-        if (subjects.isEmpty()) {
+    override fun showSubjectGrades(subjectGrades: List<SubjectGrade>) {
+        if (subjectGrades.isEmpty()) {
             noSubjectText.visibility = View.VISIBLE
             subjectView.visibility = View.GONE
         } else {
             noSubjectText.visibility = View.GONE
             subjectView.visibility = View.VISIBLE
             subjectView.adapter =
-                SubjectAdapter(subjects)
+                SubjectAdapter(subjectGrades)
         }
     }
 
+    override fun askForGrade(subjects: List<Subject>) = GradeDialog().run {
+        arguments = Bundle().apply {
+            putParcelableArrayList(GradeDialog.SUBJECTS, ArrayList(subjects))
+        }
+        show(supportFragmentManager, "Grade")
+    }
+
     override fun onSubjectAvailable(subject: Subject) = presenter.onNewSubjectAvailable(subject)
+
+    override fun onGradeAvailable(grade: Grade) = presenter.onNewGradeAvailable(grade)
 }

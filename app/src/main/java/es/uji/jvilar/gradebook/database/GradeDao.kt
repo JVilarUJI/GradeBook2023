@@ -15,4 +15,10 @@ interface GradeDao {
 
     @Query("SELECT * FROM subject")
     fun getSubjects(): List<Subject>
+
+    @Query("SELECT code, name, SUM(weight * grade) AS gradeSum, SUM (weight) AS weightSum" +
+            " FROM subject LEFT JOIN grade on subject_code == code" +
+            " GROUP BY code" +
+            " ORDER BY code")
+    fun getSubjectGrades(): List<SubjectGrade>
 }

@@ -38,6 +38,14 @@ class Presenter (private val model: Model, private val view: GradeView) {
             }
         })
 
+    fun onSubjectDetailRequested(subject: Subject) {
+        model.getGrades(subject, object: Listener<List<Grade>>{
+            override fun onResponse(data: List<Grade>) {
+                view.showSubjectDetails(subject, data)
+            }
+        })
+    }
+
     init {
         requestSubjectGrades()
     }

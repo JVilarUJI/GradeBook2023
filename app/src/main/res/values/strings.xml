@@ -16,4 +16,5 @@
     <string name="subject">Subject:</string>
     <string name="grade">Grade:</string>
     <string name="weight">Weight:</string>
+    <string name="no_grades_yet">No grades yet</string>
 </resources>

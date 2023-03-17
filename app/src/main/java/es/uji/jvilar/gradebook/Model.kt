@@ -52,4 +52,13 @@ class Model (context: Context){
             listener.onResponse(subjectGrades)
         }
     }
+
+    fun getGrades(subject: Subject, listener: Listener<List<Grade>>) {
+        CoroutineScope(Dispatchers.Main).launch  {
+            val subjectGrades = withContext(Dispatchers.IO) {
+                dao.getGrades(subject.code)
+            }
+            listener.onResponse(subjectGrades)
+        }
+    }
 }

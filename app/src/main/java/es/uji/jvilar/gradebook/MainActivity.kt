@@ -14,6 +14,7 @@ import es.uji.jvilar.gradebook.database.Subject
 import es.uji.jvilar.gradebook.database.SubjectGrade
 import es.uji.jvilar.gradebook.dialogs.GradeDialog
 import es.uji.jvilar.gradebook.dialogs.GradeDialog.GradeListener
+import es.uji.jvilar.gradebook.dialogs.SubjectDetailDialog
 import es.uji.jvilar.gradebook.dialogs.SubjectDialog
 import es.uji.jvilar.gradebook.dialogs.SubjectDialog.SubjectListener
 
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity(), GradeView, SubjectListener, GradeListe
             noSubjectText.visibility = View.GONE
             subjectView.visibility = View.VISIBLE
             subjectView.adapter =
-                SubjectAdapter(subjectGrades)
+                SubjectAdapter(subjectGrades) { presenter.onSubjectDetailRequested(it) }
         }
     }
 
@@ -74,6 +75,14 @@ class MainActivity : AppCompatActivity(), GradeView, SubjectListener, GradeListe
             putParcelableArrayList(GradeDialog.SUBJECTS, ArrayList(subjects))
         }
         show(supportFragmentManager, "Grade")
+    }
+
+    override fun showSubjectDetails(subject: Subject, grades: List<Grade>) = SubjectDetailDialog().run {
+        arguments = Bundle().apply {
+            putParcelable(SubjectDetailDialog.SUBJECT, subject)
+            putParcelableArrayList(SubjectDetailDialog.GRADES, ArrayList(grades))
+        }
+        show(supportFragmentManager, "GradeDetails")
     }
 
     override fun onSubjectAvailable(subject: Subject) = presenter.onNewSubjectAvailable(subject)

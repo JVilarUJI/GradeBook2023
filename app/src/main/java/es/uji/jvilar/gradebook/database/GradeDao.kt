@@ -21,4 +21,7 @@ interface GradeDao {
             " GROUP BY code" +
             " ORDER BY code")
     fun getSubjectGrades(): List<SubjectGrade>
+
+    @Query("SELECT * FROM Grade WHERE subject_code == :subject_code")
+    fun getGrades(subject_code: String): List<Grade>
 }

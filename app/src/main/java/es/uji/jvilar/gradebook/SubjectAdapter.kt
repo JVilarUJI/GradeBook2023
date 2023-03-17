@@ -5,9 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import es.uji.jvilar.gradebook.database.Subject
 import es.uji.jvilar.gradebook.database.SubjectGrade
 
-class SubjectAdapter(private val subjects: List<SubjectGrade>):
+class SubjectAdapter(private val subjects: List<SubjectGrade>,
+                     private val listener: (Subject) -> Unit):
     RecyclerView.Adapter<SubjectAdapter.ViewHolder> () {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val subjectCode: TextView = view.findViewById(R.id.subjectCode)
@@ -24,6 +26,7 @@ class SubjectAdapter(private val subjects: List<SubjectGrade>):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(subjects[position]) {
+            holder.itemView.setOnClickListener { listener(subject) }
             holder.subjectCode.text = subject.code
             holder.subjectName.text = subject.name
 
